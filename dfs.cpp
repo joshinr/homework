@@ -1,109 +1,99 @@
+
 #include <iostream>
 #include <vector>
-#include <list>
+#include <queue>
 
 using namespace std;
 
 class Graph
 {
 private:
-    int v_;
-    std::vector<int> *list_;
-
+    int vertices;
+    vector<int> *adjList;
+        
 public:
-    Graph(int vertices)
+    Graph(int n)
     {
-        v_ = vertices;
-        list_ = new std::vector<int>[v_];
+        vertices = n;
+        adjList = new vector<int>[vertices];
     }
-
+   
     ~Graph()
     {
-        if (list_)
-        {
-            delete []list_;
-        }
-    } 
+        delete []adjList;
+        adjList = nullptr;
+	} 
 
     int addEdge(int vertex, int edge)
     {
-        if (vertex < v_)
+        if (vertex < vertices)
         {
-            list_[vertex].push_back(edge);
+            adjList[vertex].push_back(edge);
             return 0;
         }
         return -1;
     }
-
-    void BFS(int vertex)
+    
+    void BreadthFirstSearch(int vertex)
     {
-        std::vector<bool> visited;
-        for ( int i=0; i< v_; ++i )
-        {
-            visited.push_back(false);
-        }
-
-        std::list<int> queue;
-        queue.push_back(vertex);
-
+        std::vector<bool> visited(vertices, false);
+        
+        std::queue<int> queue;
+        queue.push(vertex);
+        
         while(!queue.empty())
         {
             int tmp = queue.front();
-            queue.pop_front();
-
+            queue.pop();
+            
             visited[tmp] = true;
-            std::cout<<tmp<<",";
-
-            for(auto &it : list_[tmp])
+            std::cout<<tmp<<" ";
+            
+            const vector<int> &lst = adjList[tmp];
+            for(auto &it : lst)
             {
                 if (visited[it] == false)
                 {
-                    queue.push_back(it);
+                    queue.push(it);
                 }
             }
         }
     }
-
-    void DFS_Traverse(int vertex, std::vector<bool> &visited)
+    
+    void DepthFirstTraversal(int vertex)
     {
-        std::cout<<vertex<<", ";
-
+        std::vector<bool> visited(vertices, false);
+        dfs(vertex, visited);
+    }
+    
+    void dfs(int vertex, std::vector<bool> &visited)
+    {
+        std::cout<<vertex<<" ";
         visited[vertex] = true;
-        for(auto &it : list_[vertex])
+        
+        const vector<int> &lst = adjList[vertex];
+        for(auto &it : adjList[vertex])
         {
             if (visited[it] == false)
             {
-                DFS_Traverse(it, visited);
+                dfs(it, visited);
             }
         }
-    }
-
-    void DFS(int vertex)
-    {
-        std::vector<bool> visited;
-        for (int i=0; i < v_; ++i)
-        {
-            visited.push_back(false);
-        }
-
-        DFS_Traverse(vertex, visited); 
     }
 };
 
 int main() {
-    //code
-    Graph g(4);
+	//code
+	Graph g(4);
     g.addEdge(0, 1);
     g.addEdge(0, 2);
     g.addEdge(1, 2);
     g.addEdge(2, 0);
     g.addEdge(2, 3);
     g.addEdge(3, 3);
-
-    std::cout << std::endl << "BFS" << std::endl;
-    g.BFS(2);
-    std::cout << std::endl << "DFS" << std::endl;
-    g.DFS(2);
-    std::cout << std::endl; 
-    return 0;
+    
+    g.BreadthFirstSearch(2);
+    cout<<endl;
+    g.DepthFirstTraversal(2);
+	return 0;
 }
