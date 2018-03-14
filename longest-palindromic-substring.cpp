@@ -1,11 +1,8 @@
-/******************************************************************************
+//https://www.youtube.com/watch?v=obBdxeCx_Qs
+//Given a string, find the longest substring which is palindrome. For example, 
+//if the given string is “forgeeksskeegfor”, the output should be “geeksskeeg”.
+//time complexity: O ( n^2 )
 
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
