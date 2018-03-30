@@ -42,7 +42,7 @@ void palindromeSubString(const string &str)
             if (str[j] == str[k] && table[j+1][k-1] == 1)
             {
                 table[j][k] = 1;
-                if (k > maxLength)
+                if (i > maxLength)
                 {
                     maxLength = i;
                     start = j;
